@@ -93,10 +93,10 @@ document.getElementById("studentForm").addEventListener("submit", async function
         skills: document.getElementById("skills").value.split(",").map(s => s.trim())
     };
 
-    try {
+    try {                                  
         const res = await fetch("https://noncalumniating-shellie-inconstantly.ngrok-free.dev/webhook/whatapp", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
+            method: "POST",
+            headers: { "Content-Type":"application/json" },
             body: JSON.stringify(data)
         });
 
