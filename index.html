@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Form</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background:#eef2f3;
+    padding:20px;
+}
+.container {
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+label { font-weight:bold; margin-top:10px; display:block; }
+input, select, textarea {
+    width:100%; padding:10px; margin-top:5px;
+    border:1px solid #ccc; border-radius:6px;
+}
+button {
+    margin-top:20px; padding:12px;
+    width:100%; font-size:18px;
+    background:#1976d2; color:white;
+    border:none; border-radius:6px;
+    cursor:pointer;
+}
+button:hover { background:#0f5cad; }
+.status { margin-top:15px; font-weight:bold; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Student Information Form</h2>
+
+<form id="studentForm">
+
+    <label>Name *</label>
+    <input type="text" id="name" required>
+
+    <label>Email *</label>
+    <input type="email" id="email" required>
+
+    <label>Age *</label>
+    <input type="number" id="age" required>
+
+    <label>Roll Number *</label>
+    <input type="text" id="rollNumber" required>
+
+    <label>Class *</label>
+    <select id="class" required>
+        <option value="">Select Class</option>
+        <option value="9th">9th</option>
+        <option value="10th">10th</option>
+        <option value="11th">11th</option>
+        <option value="12th">12th</option>
+    </select>
+
+    <label>Phone *</label>
+    <input type="text" id="phone" required>
+
+    <label>Address *</label>
+    <textarea id="address" rows="3" required></textarea>
+
+    <label>Skills (comma separated)</label>
+    <input type="text" id="skills" placeholder="Flutter, AI, Web Dev">
+
+    <button type="submit">Submit Form</button>
+</form>
+
+<div id="status" class="status"></div>
+</div>
+
+<script>
+document.getElementById("studentForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        age: document.getElementById("age").value,
+        rollNumber: document.getElementById("rollNumber").value,
+        class: document.getElementById("class").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        skills: document.getElementById("skills").value.split(",").map(s => s.trim())
+    };
+
+    try {
+        const res = await fetch("https://noncalumniating-shellie-inconstantly.ngrok-free.dev/webhook/whatapp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if(res.ok){
+            document.getElementById("status").innerHTML = "✅ Submitted Successfully!";
+            document.getElementById("status").style.color = "green";
+            document.getElementById("studentForm").reset();
+        } else {
+            document.getElementById("status").innerHTML = "❌ Error sending to webhook.";
+            document.getElementById("status").style.color = "red";
+        }
+
+    } catch(err){
+        document.getElementById("status").innerHTML = "❌ Connection Failed: " + err.message;
+        document.getElementById("status").style.color = "red";
+    }
+});
+</script>
+
+</body>
+</html>
