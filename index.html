@@ -95,7 +95,7 @@ document.getElementById("studentForm").addEventListener("submit", async function
 
     try {
         const res = await fetch("https://noncalumniating-shellie-inconstantly.ngrok-free.dev/webhook/whatapp", {
-            method: "POST",
+            method: "GET",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
